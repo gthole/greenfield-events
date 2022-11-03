@@ -1,0 +1,13 @@
+<div class="nav">
+    <div {% if view == 'home' %}class="active"{% endif %}>
+        <a href="/">Coming Up</a>
+    </div>
+    <div {% if view == 'calendar' %}class="active"{% endif %}>
+        <a href="/calendar/">Calendar</a>
+    </div>
+    {% if search %}
+    <div {% if view == 'search' %}class="active"{% endif %}>
+        Searching "{{ search }}"
+    </div>
+    {% endif %}
+</div>

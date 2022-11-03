@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/static/style.css">
+    {% block style %}{% endblock %}
+</head>
+<body>
+    <div class="flex-wrapper">
+        <div class="upper">
+            {% include 'components/header.html' %}
+            {% include 'components/nav.html' %}
+            {% block content %}{% endblock %}
+        </div>
+        {% include 'components/footer.html' %}
+    </div>
+</body>
+{% block js %}{% endblock %}
+</html>

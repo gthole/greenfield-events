@@ -1,0 +1,6 @@
+.env
+.data/
+.public/
+__pycache__
+*.pyc
+app/.scrapy/

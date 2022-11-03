@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page">
+    <div class="row">
+    {% for day in days.values %}
+        <div class="column{% if day.is_weekend %} weekend{% endif %}{% if day.is_past %} past{% endif %}">
+            <div class="day">
+                <div class="day-header">
+                    <h2 class="{% if day.is_today %}today{% endif %}">{{ day.date | date:'l M d' }}</h2>
+                </div>
+            {% for event in day.events %}
+                <div>
+                    <div class="event_name">
+                        <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer">{{ event.name }}</a>
+                    </div>
+                    <div class="location">{{ event.source.name }}</div>
+                    <div>{{ event.start_dttm | date:'g a' }}</div>
+                </div>
+            {% endfor %}
+            {% if not day.events %}
+                <div class="event_name">
+                    No events
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+    div.page {
+        min-height: 100vh;
+    }
+    div.event_name {
+        font-weight: bold;
+        margin-top: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    div.row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    div.column {
+        min-width: 14.28%;
+        width: 14.28%;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    div.weekend {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    div.past {
+        opacity: 0.6;
+    }
+    div.day {
+        height: 100%;
+        padding: 10px;
+        font-size: 12px;
+        border: 1px solid #004643;
+    }
+    div.day-header {
+        border-bottom: 1px solid #004643;
+    }
+    a {
+        color: #fffffe;
+        text-decoration: none;
+    }
+    h2 {
+        margin-top: 0;
+        margin-bottom: 5px;
+        padding: 5px 0;
+        padding-top: 8px;
+        border-radius: 15px;
+        font-weight: bold;
+    }
+    h2.today {
+        padding: 5px 10px;
+        padding-top: 8px;
+        background-color: #f9bc60;
+        color: #001e1d;
+    }
+    @media screen and (max-width: 480px) {
+        div.column {
+            min-width: 100%;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        div.day {
+            font-size: 14px;
+        }
+        div.weekend {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        div.past {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
