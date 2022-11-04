@@ -26,7 +26,7 @@ class TenForwardSpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse_event)
 
     def parse_event(self, response):
-        content = md(response.css('.sqs-block-content').extract_first())
+        content = md(response.css('.eventitem-column-content').extract_first())
         description = re.sub('\n{3,}', '\n', content).strip()
         lower_description = description.lower()
 

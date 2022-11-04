@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="search-text">
+        Searching "{{ search }}"
+    </div>
     <div class="container">
         {% include 'components/event-list.html' %}
     </div>
+{% endblock %}
+
+{% block style %}
+<style>
+    .search-text {
+        padding-bottom: 20px;
+        width: 100%;
+        text-align: center;
+    }
+</style>
 {% endblock %}

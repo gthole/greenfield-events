@@ -1,22 +1,27 @@
 {% for day in days.values %}
-<h2 class="day-header{% if day.is_today %} today{% endif %}">
-    {% if day.is_today %}
-    Today
-    {% elif day.is_tomorrow %}
-    Tomorrow
-    {% else %}
-    {{ day.date | date:'l M d' }}
-    {% endif %}
-</h2>
-<div class="events">
-    {% for event in day.events %}
-        <div class="event">
-            <div class="event_name">
-                <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer">{{ event.name }}</a>
+<div class="day">
+    <h2 class="day-header{% if day.is_today %} today{% endif %}">
+        {% if day.is_today %}
+        Today
+        {% elif day.is_tomorrow %}
+        Tomorrow
+        {% else %}
+        {{ day.date | date:'l M d' }}
+        {% endif %}
+    </h2>
+    <div class="events">
+        {% for event in day.events %}
+            <div class="event">
+                <div class="event_name">
+                    <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer">{{ event.name }}</a>
+                </div>
+                <div class="location">{{ event.source.name }}</div>
+                <div>{{ event.start_dttm | date:'g a' }}</div>
             </div>
-            <div class="location">{{ event.source.name }}</div>
-            <div>{{ event.start_dttm | date:'g a' }}</div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 {% endfor %}
+{% if not days %}
+    <div class="placeholder">No events found!</div>
+{% endif %}

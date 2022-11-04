@@ -1,3 +1,4 @@
+from hashlib import md5
 from django.contrib.auth.models import User
 from django.db.models import Model, TextField, DateTimeField, Index, CharField, \
     URLField, BooleanField, TimeField, ForeignKey, CASCADE
@@ -9,6 +10,7 @@ class EventSource(Model):
     Link between events and web crawlers/users
     """
     name = CharField(max_length=255)
+    extra_search_terms = CharField(max_length=255, blank=True, null=True)
     spider = CharField(max_length=255, blank=True, null=True)
     default_location = CharField(max_length=255, blank=True, null=True)
 
@@ -16,9 +18,12 @@ class EventSource(Model):
         return '%s (%d)' % (self.name, self.id)
 
 
-class BaseEvent(Model):
+class Event(Model):
     class Meta:
-        abstract = True
+        indexes = [
+            Index(fields=['-start_dttm']),
+            Index(fields=['source']),
+        ]
 
     external_id = CharField(max_length=255)
     url = URLField(max_length=500)
@@ -28,26 +33,22 @@ class BaseEvent(Model):
     location = CharField(max_length=255)
     all_day = BooleanField(default=False)
 
+    source = ForeignKey(EventSource, related_name='events', on_delete=CASCADE)
+    start_dttm = DateTimeField()
+    end_dttm = DateTimeField(blank=True, null=True)
+    canceled = BooleanField(default=False)
+
     created_dttm = DateTimeField(auto_now_add=True, blank=True)
     updated_dttm = DateTimeField(auto_now=True, blank=True)
     last_crawled_dttm = DateTimeField(null=True, blank=True)
 
+    recurrences = RecurrenceField(null=True, blank=True)
 
-class Event(BaseEvent):
-    class Meta:
-        indexes = [
-            Index(fields=['-start_dttm']),
-            Index(fields=['source']),
-        ]
-
-    source = ForeignKey(EventSource, related_name='events', on_delete=CASCADE)
-    start_dttm = DateTimeField(blank=True, null=True)
-    end_dttm = DateTimeField(blank=True, null=True)
-    canceled = BooleanField(default=False)
-
-
-class RecurringEvent(BaseEvent):
-    source = ForeignKey(EventSource, related_name='recurring_events', on_delete=CASCADE)
-    start = TimeField()
-    end = TimeField()
-    recurrences = RecurrenceField()
+    def save(self, *args, **kwargs):
+        """
+        Ensure we take the hashlib of the url for the external ID when saving
+        through the admin portal
+        """
+        if self.external_id is None:
+            self.external_id = md5(self.url.encode()).digest()
+        return super().save(*args, **kwargs)

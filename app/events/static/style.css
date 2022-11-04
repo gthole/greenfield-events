@@ -6,11 +6,25 @@ body {
 }
 div.header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
-h1 {
+.header h1 {
     margin-top: 0;
+    margin-bottom: 0;
     color: #fffffe;
+}
+.header h1 > a {
+    display: flex;
+    align-items: center;
+}
+.header h1 .title {
+    padding-top: 12px;
+    padding-left: 10px;
+}
+.header form {
+    padding-top: 12px;
 }
 div.nav {
     display: flex;
@@ -35,8 +49,12 @@ div.container {
 }
 div.footer {
     width: 100%;
-    padding: 10px 5px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     font-size: 12px;
+}
+div.footer > div {
+    margin-bottom: 5px;
 }
 div.flex-wrapper {
     display: flex;
@@ -45,6 +63,7 @@ div.flex-wrapper {
     justify-content: space-between;
 }
 input.search {
+    border-radius: 0;
     background-color: #004643;
     border: none;
     border-bottom: 1px solid #f9bc60;
@@ -66,9 +85,9 @@ input.search:focus::placeholder {
 }
 
 input.submit {
+    border-radius: 0;
     background-color: #004643;
     border: 1px solid #f9bc60;
-    border-radius: 5px;
     padding: 5px;
     color: #fffffe;
     margin-left: 10px;
@@ -80,6 +99,14 @@ input.submit:hover {
     color: #001e1d;
     cursor: pointer;
 }
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding: 5px 0;
+    padding-top: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
 
 h2.day-header {
     padding: 8px 5px 5px 5px;
@@ -87,10 +114,41 @@ h2.day-header {
     color: #001e1d;
 }
 div.event {
+    font-size: 18px;
     margin-bottom: 20px;
 }
 a {
     color: #fffffe;
     text-decoration: none;
 }
+.container > h2:first-child {
+    margin-top: 0;
+}
 
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+    div.container {
+        padding: 10px;
+    }
+    div.event {
+        font-size: 14px;
+    }
+    .header {
+        display: flex;
+        flex-direction: column;
+    }
+    .header h1 {
+        padding-top: 10px;
+        font-size: 24px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .header form {
+        display: flex;
+        justify-content: center;
+    }
+}

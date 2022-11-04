@@ -5,7 +5,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-from events.views import home, search, calendar
+from events.feeds import EventsFeed, ICALEventsFeed
+from events.views import home, search, calendar, event_link
 
 
 # TODO: Serve media images with another method
@@ -18,10 +19,17 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^favicon.ico$', RedirectView.as_view(
-        url=settings.STATIC_URL + 'assets/favicon.ico',
+        url=settings.STATIC_URL + 'img/favicon-96.ico',
         permanent=True
     )),
+    url('robots.txt', TemplateView.as_view(
+        template_name="robots.txt",
+        content_type="text/plain"
+    )),
+    url(r'^events/(?P<date>[\d\-]+)/(?P<b64_external_id>[\w=]+)', event_link),
+    url(r'^feed.ics', ICALEventsFeed()),
+    url(r'^feed', EventsFeed()),
     url(r'^search', search),
     url(r'^calendar', calendar),
-    url(r'', home),
+    url(r'^$', home),
 ]

@@ -21,7 +21,7 @@ class EventStorePipeline(object):
         })
 
     def process_item(self, item, spider):
-        if not item.get('external_id'):
+        if not item.get('external_id') or not item.get('start_dttm'):
             raise DropItem
 
         (ev, created) = Event.objects.get_or_create(
