@@ -81,6 +81,8 @@ def get_days_context(*args, now, start, end, **kwargs):
 
     for event in events:
         k = event['start_dttm'].astimezone(TZ).strftime('%d/%b/%Y')
+        if not days.get(k):
+            continue
         days[k]['events'].append(event)
 
     return days

@@ -58,8 +58,10 @@ class ICALEventsFeed(ICalFeed):
             return item.end_dttm.astimezone(tz=TZ)
 
         # In general evening events have a long duration
-        if item.start_dttm.astimezone(tz=TZ).hour >= 14:
-            return item.start_dttm.astimezone(tz=TZ) + timedelta(hours=4)
+        start = item.start_dttm.astimezone(tz=TZ)
+        if start.hour >= 14:
+            hours = min(24 - start.hour, 4)
+            return start + timedelta(hours=hours)
 
         return None
 
