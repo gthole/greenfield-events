@@ -71,9 +71,9 @@ def get_days_context(*args, now, start, end, **kwargs):
         key = d.strftime('%d/%b/%Y')
         entry = {
             'date': d,
-            'is_past': d < tznow,
-            'is_today': d == tznow,
-            'is_tomorrow': d == tznow + timedelta(days=1),
+            'is_past': d.date() < tznow.date(),
+            'is_today': d.date() == tznow.date(),
+            'is_tomorrow': d.date() == (tznow + timedelta(days=1)).date(),
             'is_weekend': d.weekday() == 5 or d.weekday() == 6,
             'events': [],
         }

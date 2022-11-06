@@ -12,7 +12,7 @@ RUN apk add --update --no-cache build-base libxml2-dev libxslt-dev libffi-dev &&
 COPY ./app /src
 WORKDIR /src
 
-# Add the backup script - apparently cannot contain "." in the name
+# Add the crawl script - cannot contain "." in the name
 ADD ./app/crawl.sh /etc/periodic/daily/crawl
 RUN chmod +x /etc/periodic/daily/crawl
 

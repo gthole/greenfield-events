@@ -8,9 +8,7 @@ from django.views.generic.base import RedirectView
 from events.feeds import EventsFeed, ICALEventsFeed
 from events.views import home, search, calendar, event_link
 
-
-# TODO: Serve media images with another method
-urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
+urlpatterns = [
     url(r'^accounts/password_reset/$', auth_views.PasswordResetView.as_view(
         email_template_name='email/password_reset.txt',
         html_email_template_name='email/password_reset.html',
@@ -19,7 +17,7 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^favicon.ico$', RedirectView.as_view(
-        url=settings.STATIC_URL + 'img/favicon-96.ico',
+        url=settings.STATIC_URL + 'img/favicon-32.png',
         permanent=True
     )),
     url('robots.txt', TemplateView.as_view(
