@@ -38,7 +38,7 @@ def get_events(*args, start, end, **kwargs):
     ).order_by('start_dttm')
 
 
-def get_events_context(*args, now, start, end, **kwargs):
+def get_events_context(*args, start, end, **kwargs):
     tz_start = start.astimezone(tz=TZ)
     objs = get_events(*args, start=start, end=end, **kwargs)
 
@@ -49,7 +49,7 @@ def get_events_context(*args, now, start, end, **kwargs):
             dates = event.recurrences.between(start, end)
             for date in dates:
                 start_dttm = date.replace(
-                    hour=event.start_dttm.astimezone(tz=TZ).hour,
+                    hour=event.start_dttm.hour,
                     minute=event.start_dttm.minute,
                 ).astimezone(tz=TZ)
                 events.append(to_context(event, start_dttm))
@@ -62,7 +62,7 @@ def get_events_context(*args, now, start, end, **kwargs):
 
 def get_days_context(*args, now, start, end, **kwargs):
     tz_start = start.astimezone(tz=TZ)
-    events = get_events_context(*args, now=now, start=start, end=end, **kwargs)
+    events = get_events_context(*args, start=start, end=end, **kwargs)
 
     days = {}
     tznow = now.astimezone(tz=TZ)

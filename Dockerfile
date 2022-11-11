@@ -9,8 +9,8 @@ RUN apk add --update --no-cache build-base libxml2-dev libxslt-dev libffi-dev &&
     apk del build-base && \
     rm -rf /var/cache/apk/*
 
-COPY ./app /src
-WORKDIR /src
+COPY ./app /app
+WORKDIR /app
 
 # Add the crawl script - cannot contain "." in the name
 ADD ./app/crawl.sh /etc/periodic/daily/crawl

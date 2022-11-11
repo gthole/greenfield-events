@@ -17,9 +17,9 @@ class EventsFeed(Feed):
     description = 'Upcoming events in Greenfield MA.'
 
     def items(self):
-        start = datetime.now()
+        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         end = start + timedelta(days=28)
-        return get_events_context(now=start, start=start, end=end)
+        return get_events_context(start=start, end=end)
 
     def item_title(self, item):
         return item['name']
@@ -36,10 +36,20 @@ class ICALEventsFeed(ICalFeed):
     timezone = settings.TIME_ZONE
     file_name = "upcoming-events.ics"
 
-    def items(self):
-        start = datetime.now()
+    def get_object(self, request, *args, **kwargs):
+        obj = {}
+
+        if request.GET.get('search'):
+            obj['search'] = request.GET['search']
+        if request.GET.get('source_id'):
+            obj['source_id'] = request.GET['source_id']
+
+        return obj
+
+    def items(self, obj):
+        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         end = start + timedelta(days=90)
-        return get_events(start=start, end=end)
+        return get_events(start=start, end=end, **obj)
 
     def item_title(self, item):
         return item.name

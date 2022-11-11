@@ -24,26 +24,26 @@ class EventStorePipeline(object):
         if not item.get('external_id') or not item.get('start_dttm'):
             raise DropItem
 
-        (ev, created) = Event.objects.get_or_create(
+        (ev, created) = Event.objects.update_or_create(
             external_id=item['external_id'],
-            source_id=self.source.id
+            source_id=self.source.id,
+            defaults={
+                'url': item['url'],
+                'name': self.unescape(item['name']),
+                'description': self.unescape(item['description']),
+                'location': self.unescape(item['location'] or self.source.default_location),
+                'all_day': item.get('all_day', False),
+                'start_dttm': self.parse_dttm(item, 'start_dttm'),
+                'end_dttm': self.parse_dttm(item, 'end_dttm'),
+                'canceled': item['canceled'],
+                'last_crawled_dttm': datetime.now(timezone.utc),
+            }
         )
 
         if created:
             self.create_count += 1
         else:
             self.update_count += 1
-
-        ev.url = item['url']
-        ev.name = self.unescape(item['name'])
-        ev.description = self.unescape(item['description'])
-        ev.location = self.unescape(item['location'] or self.source.default_location)
-        ev.all_day = item.get('all_day', False)
-        ev.start_dttm = self.parse_dttm(item, 'start_dttm')
-        ev.end_dttm = self.parse_dttm(item, 'end_dttm')
-        ev.canceled = item['canceled']
-        ev.last_crawled_dttm = datetime.now(timezone.utc)
-        ev.save()
 
         return item
 

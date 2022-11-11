@@ -5,7 +5,7 @@ services:
         command: 'python manage.py runserver 0.0.0.0:8000'
         init: true
         volumes:
-            - './app:/src'
+            - './app:/app'
             - './.data/db.sqllite:/data/db.sqllite'
             - './.public:/public'
         env_file: '.env'
