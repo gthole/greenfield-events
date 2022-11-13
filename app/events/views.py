@@ -49,7 +49,7 @@ def get_events_context(*args, start, end, **kwargs):
             dates = event.recurrences.between(start, end)
             for date in dates:
                 start_dttm = date.replace(
-                    hour=event.start_dttm.hour,
+                    hour=event.start_dttm.astimezone(tz=TZ).hour,
                     minute=event.start_dttm.minute,
                 ).astimezone(tz=TZ)
                 events.append(to_context(event, start_dttm))
