@@ -1,3 +1,4 @@
+import hashlib
 from django.db.models import Count
 from scrapy.exceptions import DropItem
 from events.models import Event, EventSource
@@ -21,11 +22,13 @@ class EventStorePipeline(object):
         })
 
     def process_item(self, item, spider):
-        if not item.get('external_id') or not item.get('start_dttm'):
+        if not item.get('url') or not item.get('name') or not item.get('start_dttm'):
             raise DropItem
 
+        external_id = hashlib.md5((item['url'] + item['name']).encode()).digest(),
+
         (ev, created) = Event.objects.update_or_create(
-            external_id=item['external_id'],
+            external_id=external_id,
             source_id=self.source.id,
             defaults={
                 'url': item['url'],

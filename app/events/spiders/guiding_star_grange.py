@@ -59,7 +59,6 @@ class GuidingStarGrangeSpider(scrapy.Spider):
                 end = event['end'].get('dateTime', event['end'].get('date'))
 
                 yield {
-                    'external_id': event['id'],
                     'url': event.get('htmlLink'),
                     'name': event['summary'],
                     'description': md(re.sub('html-blob', 'div', event.get('description', ''))),

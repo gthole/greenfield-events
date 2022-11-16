@@ -8,6 +8,12 @@ from base64 import b64decode, b64encode
 import pytz
 
 TZ = pytz.timezone(settings.TIME_ZONE)
+day_start = {
+    'hour': 0,
+    'minute': 0,
+    'second': 0,
+    'microsecond': 0
+}
 
 
 def get_event_url(obj, start_dttm):
@@ -89,7 +95,7 @@ def get_days_context(*args, now, start, end, **kwargs):
 
 
 def home(request):
-    start = datetime.now()
+    start = datetime.now().replace(**day_start)
     end = start + timedelta(days=7)
 
     days = get_days_context(now=start, start=start, end=end)
@@ -108,7 +114,7 @@ def search(request):
     if not query:
         return home(request)
 
-    start = datetime.now()
+    start = datetime.now().replace(**day_start)
     end = start + timedelta(days=28)
     search_args = [
         Q(name__icontains=query) | \

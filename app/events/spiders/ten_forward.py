@@ -1,4 +1,3 @@
-import hashlib
 import scrapy
 import json
 import re
@@ -35,7 +34,6 @@ class TenForwardSpider(scrapy.Spider):
         ldjson = [j for j in all_ld_json if j.get('startDate')][0]
 
         yield {
-            'external_id': hashlib.md5(response.url.encode()).digest(),
             'url': response.url,
             'name': re.sub(
                 '( at| -| —)? 10 forward$', '',

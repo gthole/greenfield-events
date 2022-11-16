@@ -1,4 +1,3 @@
-import hashlib
 import scrapy
 import json
 import re
@@ -43,7 +42,6 @@ class FourPhantomsSpider(scrapy.Spider):
         ldjson = event_blobs[0]
 
         yield {
-            'external_id': hashlib.md5(response.url.encode()).digest(),
             'url': response.url,
             'name': ldjson['name'],
             'description': description,

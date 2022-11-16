@@ -5,7 +5,7 @@ from django.urls import reverse
 from datetime import datetime, timedelta
 from django_ical.utils import build_rrule_from_recurrences_rrule
 from django_ical.views import ICalFeed
-from events.views import get_events, get_events_context, get_event_url
+from events.views import day_start, get_events, get_events_context, get_event_url
 import pytz
 
 TZ = pytz.timezone(settings.TIME_ZONE)
@@ -17,7 +17,7 @@ class EventsFeed(Feed):
     description = 'Upcoming events in Greenfield MA.'
 
     def items(self):
-        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        start = datetime.now().replace(**day_start)
         end = start + timedelta(days=28)
         return get_events_context(start=start, end=end)
 
@@ -47,7 +47,7 @@ class ICALEventsFeed(ICalFeed):
         return obj
 
     def items(self, obj):
-        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        start = datetime.now().replace(**day_start)
         end = start + timedelta(days=90)
         return get_events(start=start, end=end, **obj)
 

@@ -25,7 +25,7 @@ class Event(Model):
             Index(fields=['source']),
         ]
 
-    external_id = CharField(max_length=255)
+    external_id = CharField(max_length=255, unique=True)
     url = URLField(max_length=500)
 
     name = CharField(max_length=255)
@@ -46,9 +46,9 @@ class Event(Model):
 
     def save(self, *args, **kwargs):
         """
-        Ensure we take the hashlib of the url for the external ID when saving
-        through the admin portal
+        Ensure we take the hashlib of the url and name for the external ID when
+        saving through the admin portal
         """
         if self.external_id is None:
-            self.external_id = md5(self.url.encode()).digest()
+            self.external_id = md5((self.url + self.name).encode()).digest()
         return super().save(*args, **kwargs)

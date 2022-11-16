@@ -1,4 +1,3 @@
-import hashlib
 import scrapy
 import json
 import re
@@ -43,7 +42,6 @@ class HawksAndReedSpider(scrapy.Spider):
         ldjson = json.loads(raw)[0]
 
         yield {
-            'external_id': hashlib.md5(response.url.encode()).digest(),
             'url': response.url,
             'name': re.sub(
                 '( at)? hawks (and|&) reed$', '',
