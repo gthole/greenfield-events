@@ -20,4 +20,15 @@
     </div>
 </body>
 {% block js %}{% endblock %}
+
+<script>
+    // Reload the page if the tab regains focus and it's older than today
+    document.addEventListener("visibilitychange", (ev) => {
+        const d = new Date();
+        const e = new Date('{{ date }}')
+        if (d.getDate() !== e.getDate()) {
+            window.location.reload();
+        }
+    });
+</script>
 </html>

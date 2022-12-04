@@ -113,9 +113,6 @@ CACHES = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-STATICFILES_DIRS = [
-    './events/static/'
-]
 
 MEDIA_URL = '/public/media/'
 MEDIA_ROOT = '/public/media/'

@@ -18,14 +18,14 @@ class TenForwardSpider(scrapy.Spider):
     def parse(self, response):
         event_sections = [
             link for link in
-            response.css('.eventlist-event a.eventlist-title-link')
+            response.css('.eventlist--upcoming .eventlist-event a.eventlist-title-link')
         ]
         for link in event_sections:
             url = 'https://www.10forwardartsvenue.org%s' % (link.attrib['href'],)
             yield scrapy.Request(url, callback=self.parse_event)
 
     def parse_event(self, response):
-        content = md(response.css('.eventitem-column-content').extract_first())
+        content = md(response.css('.eventitem-column-content').extract_first(), strip=['a', 'img'])
         description = re.sub('\n{3,}', '\n', content).strip()
         lower_description = description.lower()
 

@@ -43,6 +43,8 @@ class ICALEventsFeed(ICalFeed):
             obj['search'] = request.GET['search']
         if request.GET.get('source_id'):
             obj['source_id'] = request.GET['source_id']
+        if request.GET.get('source_name'):
+            obj['source__spider'] = request.GET['source_name']
 
         return obj
 

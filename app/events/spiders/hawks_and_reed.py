@@ -34,7 +34,7 @@ class HawksAndReedSpider(scrapy.Spider):
             )
 
     def parse_event(self, response):
-        content = md(response.css('.overview').extract_first())
+        content = md(response.css('.overview').extract_first(), strip=['a', 'img'])
         description = re.sub('\n{3,}', '\n', content).strip()
         lower_description = description.lower()
 

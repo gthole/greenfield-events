@@ -25,7 +25,7 @@ class EventStorePipeline(object):
         if not item.get('url') or not item.get('name') or not item.get('start_dttm'):
             raise DropItem
 
-        external_id = hashlib.md5((item['url'] + item['name']).encode()).digest(),
+        external_id = hashlib.md5(item['url'].encode()).digest(),
 
         (ev, created) = Event.objects.update_or_create(
             external_id=external_id,

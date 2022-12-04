@@ -49,6 +49,6 @@ class Event(Model):
         Ensure we take the hashlib of the url and name for the external ID when
         saving through the admin portal
         """
-        if self.external_id is None:
-            self.external_id = md5((self.url + self.name).encode()).digest()
+        if not self.external_id:
+            self.external_id = md5(self.url.encode()).digest()
         return super().save(*args, **kwargs)

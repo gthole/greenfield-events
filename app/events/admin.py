@@ -15,6 +15,7 @@ class EventSourceAdmin(admin.ModelAdmin):
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    readonly_fields=('external_id',)
     list_display = ('name', 'start_dttm', 'source')
     search_fields = ('name', 'description')
     ordering = ('-start_dttm',)

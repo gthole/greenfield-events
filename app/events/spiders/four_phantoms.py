@@ -27,7 +27,7 @@ class FourPhantomsSpider(scrapy.Spider):
             )
 
     def parse_event(self, response):
-        description = md(response.css('.sqs-block-content').extract_first())
+        description = md(response.css('.sqs-block-content').extract_first(), strip=['a', 'img'])
         lower_description = description.lower()
         if 'private event' in lower_description:
             return

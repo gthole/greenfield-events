@@ -26,7 +26,7 @@ urlpatterns = [
     )),
     url(r'^events/(?P<date>[\d\-]+)/(?P<b64_external_id>[\w=]+)', event_link),
     url(r'^feed.ics', ICALEventsFeed()),
-    url(r'^feed', EventsFeed()),
+    url(r'^feed.rss', EventsFeed()),
     url(r'^search', search),
     url(r'^calendar', calendar),
     url(r'^$', home),

@@ -61,7 +61,7 @@ class GuidingStarGrangeSpider(scrapy.Spider):
                 yield {
                     'url': event.get('htmlLink'),
                     'name': event['summary'],
-                    'description': md(re.sub('html-blob', 'div', event.get('description', ''))),
+                    'description': md(re.sub('html-blob', 'div', event.get('description', '')), strip=['a', 'img']),
                     'location': event.get('location'),
                     'start_dttm': start,
                     'end_dttm': end,
