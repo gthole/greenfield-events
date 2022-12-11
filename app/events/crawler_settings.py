@@ -20,8 +20,7 @@ NEWSPIDER_MODULE = 'events.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'greenfield-bot (+http://www.yourdomain.com)'
-USER_AGENT = 'greenfild-bot'
+USER_AGENT = 'greenfild-events-bot (+https://www.greenfield.events)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
