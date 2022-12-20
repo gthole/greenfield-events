@@ -23,10 +23,10 @@
 
 <script>
     // Reload the page if the tab regains focus and it's older than today
+    const loaded = new Date();
     document.addEventListener("visibilitychange", (ev) => {
-        const d = new Date();
-        const e = new Date('{{ date }}')
-        if (d.getDate() !== e.getDate()) {
+        const now = new Date();
+        if (loaded.getDate() !== now.getDate()) {
             window.location.reload();
         }
     });
